@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+.env
+
+# OS
+.DS_Store
+
+# Project Data
+data/*.csv
+!data/.keep
+data/api_cache.json
