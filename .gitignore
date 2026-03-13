@@ -12,3 +12,4 @@ __pycache__/
 data/*.csv
 !data/.keep
 data/api_cache.json
+data/llm_cache.json
