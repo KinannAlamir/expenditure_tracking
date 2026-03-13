@@ -483,6 +483,29 @@ def main() -> None:
         logger.error("No rows found in input files.")
         return
 
+    # --- Step 0b: Filter out "DEBIT DIFFERE" lines ---
+    debit_differe_total = 0.0
+    clean_rows: list[dict[str, str]] = []
+    for row in rows:
+        libelle = row.get("Libelle operation", "") + row.get("Libelle simplifie", "")
+        if "DEBIT DIFFERE" in libelle.upper():
+            raw_debit = row.get("Debit", "").replace(",", ".").strip()
+            if raw_debit:
+                try:
+                    debit_differe_total += abs(float(raw_debit))
+                except ValueError:
+                    pass
+        else:
+            clean_rows.append(row)
+
+    removed = len(rows) - len(clean_rows)
+    if removed:
+        logger.info(
+            f"Filtered out {removed} 'DEBIT DIFFERE' line(s) "
+            f"totalling {debit_differe_total:,.2f} €"
+        )
+    rows = clean_rows
+
     if "predicted_category" not in fieldnames:
         fieldnames.append("predicted_category")
     if "category_source" not in fieldnames:
