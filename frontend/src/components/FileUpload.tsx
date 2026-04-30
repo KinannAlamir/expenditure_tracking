@@ -7,7 +7,7 @@ interface Props {
 
 export default function FileUpload({ onUpload }: Props) {
   const [files, setFiles] = useState<File[]>([])
-  const [useLlm, setUseLlm] = useState(true)
+  const [useLlm, setUseLlm] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
 
   const addFiles = useCallback((incoming: FileList | null) => {

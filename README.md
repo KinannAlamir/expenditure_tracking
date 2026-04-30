@@ -89,11 +89,12 @@ cd frontend && npm install && cd ..
 
 ### Running the app
 
-Open **two terminals** from the project root:
+Open **two terminals**, both from the **project root** (`expenditure_tracking/`):
 
 ```bash
 # Terminal 1 — Python backend (API on http://localhost:8000)
-uv run uvicorn backend.main:app --reload
+# Must be run from the project root, not from inside frontend/
+uv run uvicorn backend.main:app --reload --port 8000    
 
 # Terminal 2 — React frontend (UI on http://localhost:5173)
 cd frontend && npm run dev
@@ -119,9 +120,10 @@ Drop in your bank CSV export(s), toggle LLM classification on or off, and click 
 cd frontend && npm run build
 ```
 
-The compiled frontend is output to `frontend/dist/`. The FastAPI backend will automatically serve it — you only need to run the backend:
+The compiled frontend is output to `frontend/dist/`. The FastAPI backend will automatically serve it — you only need to run the backend **from the project root**:
 
 ```bash
+# Run from the project root (expenditure_tracking/), not from inside frontend/
 uv run uvicorn backend.main:app --host 0.0.0.0 --port 8000
 ```
 

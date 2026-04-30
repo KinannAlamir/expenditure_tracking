@@ -339,15 +339,35 @@ def process_uploads(
 ) -> dict[str, Any]:
     """Parse uploaded CSV bytes, merge, categorize, and return JSON-serialisable dict."""
 
-    # Step 1: Parse & merge all files
+    # Step 1: Parse & merge all files, tracking per-file date ranges
     combined: list[dict[str, str]] = []
     fieldnames: list[str] = []
     seen: set[tuple[str, ...]] = set()
+    file_ranges: list[dict[str, Any]] = []
 
     for filename, content in file_contents:
         rows, fnames, _ = read_csv_bytes(content, filename)
         if not fieldnames and fnames:
             fieldnames = fnames
+
+        # Compute date range for this file
+        dates = [
+            _parse_date(r.get("Date de comptabilisation", ""))
+            for r in rows
+        ]
+        valid_dates = [d for d in dates if d != (0, 0, 0)]
+        if valid_dates:
+            dmin = min(valid_dates)
+            dmax = max(valid_dates)
+            file_ranges.append({
+                "filename": filename,
+                "date_min": f"{dmin[2]:02d}/{dmin[1]:02d}/{dmin[0]}",
+                "date_max": f"{dmax[2]:02d}/{dmax[1]:02d}/{dmax[0]}",
+                "date_min_iso": f"{dmin[0]}-{dmin[1]:02d}-{dmin[2]:02d}",
+                "date_max_iso": f"{dmax[0]}-{dmax[1]:02d}-{dmax[2]:02d}",
+                "row_count": len(rows),
+            })
+
         for row in rows:
             sig = _row_signature(row)
             if sig not in seen:
@@ -436,6 +456,7 @@ def process_uploads(
             "debit_differe_total": round(debit_differe_total, 2),
             "llm_resolved": llm_resolved,
             "llm_unresolved": len(unresolved),
+            "file_ranges": file_ranges,
         },
         "category_summary": dict(counts.most_common()),
     }

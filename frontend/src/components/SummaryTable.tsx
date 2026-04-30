@@ -43,7 +43,7 @@ export default function SummaryTable({ expenses, totalExpenses, nMonths }: Props
             <th>Category</th>
             <th>#</th>
             <th>Total</th>
-            <th>% of spend</th>
+            <th title="Share of total spending for that category">% of total spend</th>
             <th>Avg / tx</th>
             <th>Median</th>
             <th>Max</th>

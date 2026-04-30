@@ -14,12 +14,30 @@ export interface RawTransaction {
   category_source: string
 }
 
+export interface FileRange {
+  filename: string
+  date_min: string      // DD/MM/YYYY
+  date_max: string      // DD/MM/YYYY
+  date_min_iso: string  // YYYY-MM-DD
+  date_max_iso: string  // YYYY-MM-DD
+  row_count: number
+}
+
+export interface DateGap {
+  file_a: string
+  file_b: string
+  gap_days: number
+  end_iso: string    // last date of file_a
+  start_iso: string  // first date of file_b
+}
+
 export interface AnalysisStats {
   total_rows: number
   debit_differe_removed: number
   debit_differe_total: number
   llm_resolved: number
   llm_unresolved: number
+  file_ranges: FileRange[]
 }
 
 export interface AnalysisResult {

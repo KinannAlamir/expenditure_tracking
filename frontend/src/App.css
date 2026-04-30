@@ -3,49 +3,82 @@
 
 body {
   font-family: 'Inter', system-ui, sans-serif;
-  background: #f0f2f5;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 0%, #e0e7ff 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 10%, #fce7f3 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 50% 100%, #d1fae5 0%, transparent 60%),
+    #f3f4f8;
+  background-attachment: fixed;
   color: #1f2937;
   min-height: 100vh;
 }
 
 /* ── Top nav bar ────────────────────────────────────────────────────────── */
 .app-nav {
-  background: #1e1b4b;
-  color: #fff;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2rem;
-  height: 60px;
+  padding: 0 2.5rem;
+  height: 64px;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,.25);
 }
 
-.app-nav h1 {
-  font-size: 1.1rem;
+.app-nav-brand {
+  font-size: 1rem;
   font-weight: 700;
-  letter-spacing: .02em;
+  letter-spacing: .01em;
+  color: #1e1b4b;
+  white-space: nowrap;
 }
 
-.app-nav button {
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.25);
-  color: #fff;
-  padding: .4rem 1rem;
-  border-radius: 6px;
+.app-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.app-nav-links li a {
+  display: block;
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+  text-decoration: none;
+  transition: background .15s, color .15s;
+}
+.app-nav-links li a:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #111827;
+}
+
+.app-nav-back {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: .38rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
   font-size: .875rem;
-  transition: background .15s;
+  font-weight: 500;
+  transition: background .15s, border-color .15s;
 }
-.app-nav button:hover { background: rgba(255,255,255,.22); }
+.app-nav-back:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #9ca3af;
+}
 
 /* ── Page wrapper ───────────────────────────────────────────────────────── */
 .app-body {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 1rem 1.5rem 2rem;
 }
 
 /* ── Loading overlay ────────────────────────────────────────────────────── */

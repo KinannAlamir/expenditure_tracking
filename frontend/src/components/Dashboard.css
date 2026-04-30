@@ -9,10 +9,13 @@
 }
 
 .stat-card {
-  background: #fff;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 14px;
   padding: 1.1rem 1.5rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  box-shadow: 0 2px 16px rgba(99, 102, 241, 0.07), 0 1px 4px rgba(0,0,0,.05);
   display: flex;
   flex-direction: column;
   gap: .3rem;
@@ -33,7 +36,7 @@
   font-weight: 700;
   color: #111827;
 }
-.stat-value.red  { color: #dc2626; }
+.stat-value.red   { color: #dc2626; }
 .stat-value.green { color: #16a34a; }
 
 .stat-sub { font-size: .78rem; color: #9ca3af; }
@@ -51,10 +54,13 @@
 
 /* ── Chart card ─────────────────────────────────────────────────────────── */
 .chart-card {
-  background: #fff;
-  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  box-shadow: 0 2px 16px rgba(99, 102, 241, 0.06), 0 1px 4px rgba(0,0,0,.04);
 }
 
 .chart-title {
@@ -62,6 +68,86 @@
   font-weight: 600;
   color: #374151;
   margin-bottom: 1rem;
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
 }
 
 .mt { margin-top: .5rem; }
+
+/* ── Period filter ──────────────────────────────────────────────────────── */
+.period-filter {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 1.4rem;
+}
+
+.period-filter-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.period-filter-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.period-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.period-input-group label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9ca3af;
+}
+
+.period-input-group input[type="date"] {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.875rem;
+  color: #111827;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: border-color .15s;
+}
+.period-input-group input[type="date"]:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,.12);
+}
+
+.period-arrow {
+  font-size: 1rem;
+  color: #9ca3af;
+  padding-top: 1.2rem;
+}
+
+.period-reset {
+  margin-top: 1.1rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 7px;
+  border: 1px solid #e5e7eb;
+  background: transparent;
+  color: #6b7280;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.period-reset:hover {
+  background: #f3f4f6;
+  color: #374151;
+}

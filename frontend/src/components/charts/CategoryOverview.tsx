@@ -25,9 +25,18 @@ export default function CategoryOverview({ expenses }: Props) {
   const layout = {
     grid: { rows: 1, columns: 2, pattern: 'independent' },
     height: 440,
-    margin: { t: 40, b: 80, l: 60, r: 20 },
+    margin: { t: 40, b: 80, l: 20, r: 20 },
     font: { family: 'Inter, system-ui, sans-serif', size: 12 },
-    showlegend: false,
+    showlegend: true,
+    legend: {
+      orientation: 'v' as const,
+      x: 0.38,
+      y: 0.5,
+      xanchor: 'left' as const,
+      yanchor: 'middle' as const,
+      font: { size: 11 },
+      bgcolor: 'transparent',
+    },
     paper_bgcolor: 'transparent',
     plot_bgcolor: 'transparent',
   }
@@ -39,11 +48,14 @@ export default function CategoryOverview({ expenses }: Props) {
           type: 'pie',
           labels,
           values,
-          hole: 0.38,
-          textinfo: 'label+percent',
+          hole: 0.42,
+          textinfo: 'percent',
+          textposition: 'inside',
+          insidetextorientation: 'radial',
           hovertemplate: '%{label}<br>%{value:,.2f} €<br>%{percent}<extra></extra>',
           marker: { colors: COLORS },
-          domain: { column: 0 },
+          domain: { column: 0, x: [0, 0.38] },
+          sort: false,
         },
         {
           type: 'bar',
@@ -59,11 +71,11 @@ export default function CategoryOverview({ expenses }: Props) {
       ]}
       layout={{
         ...layout,
-        xaxis2: { domain: [0.52, 1], tickangle: -30 },
+        xaxis2: { domain: [0.62, 1], tickangle: -30 },
         yaxis2: { title: 'Amount (€)' },
         annotations: [
-          { text: 'Share', x: 0.20, y: 0.5, xref: 'paper', yref: 'paper', showarrow: false, font: { size: 14, color: '#6b7280' } },
-          { text: 'Total per category', x: 0.76, y: 1.04, xref: 'paper', yref: 'paper', showarrow: false, font: { size: 13, color: '#374151' } },
+          { text: 'Share', x: 0.19, y: 0.5, xref: 'paper', yref: 'paper', showarrow: false, font: { size: 14, color: '#6b7280' } },
+          { text: 'Total per category', x: 0.81, y: 1.04, xref: 'paper', yref: 'paper', showarrow: false, font: { size: 13, color: '#374151' } },
         ],
       }}
       config={{ responsive: true, displayModeBar: false }}

@@ -1,4 +1,4 @@
-import type { AnalysisResult, ProcessedData, Transaction } from '../types'
+import type { AnalysisResult, ProcessedData, Transaction, FileRange, DateGap } from '../types'
 
 // ---------------------------------------------------------------------------
 // Amount parsing (mirrors the Python logic)
@@ -124,4 +124,65 @@ export function rollingMean(arr: number[], window: number): number[] {
     const slice = arr.slice(start, i + 1)
     return slice.reduce((a, b) => a + b, 0) / slice.length
   })
+}
+
+/** Detect gaps between uploaded files' date ranges (gap > gapDays days). */
+export function detectDateGaps(fileRanges: FileRange[], gapDays = 2): DateGap[] {
+  if (fileRanges.length < 2) return []
+  const sorted = [...fileRanges].sort((a, b) =>
+    a.date_min_iso.localeCompare(b.date_min_iso)
+  )
+  const gaps: DateGap[] = []
+  for (let i = 0; i < sorted.length - 1; i++) {
+    const endMs = new Date(sorted[i].date_max_iso).getTime()
+    const startMs = new Date(sorted[i + 1].date_min_iso).getTime()
+    const diffDays = (startMs - endMs) / 86_400_000
+    if (diffDays > gapDays) {
+      gaps.push({
+        file_a: sorted[i].filename,
+        file_b: sorted[i + 1].filename,
+        gap_days: Math.round(diffDays),
+        end_iso: sorted[i].date_max_iso,
+        start_iso: sorted[i + 1].date_min_iso,
+      })
+    }
+  }
+  return gaps
+}
+
+/** Crop all transactions in ProcessedData to [minISO, maxISO] and recompute derived fields. */
+export function cropToDateRange(data: ProcessedData, minISO: string, maxISO: string): ProcessedData {
+  const min = new Date(minISO).getTime()
+  const max = new Date(maxISO).getTime()
+
+  const filterTx = (txs: Transaction[]) =>
+    txs.filter(t => {
+      const d = new Date(t.dateISO).getTime()
+      return d >= min && d <= max
+    })
+
+  const filtered = filterTx(data.transactions)
+  const filteredExpenses = filterTx(data.expenses)
+  const filteredIncome = filterTx(data.income)
+
+  const totalExpenses = filteredExpenses.reduce((s, t) => s + Math.abs(t.amount), 0)
+  const totalIncome = filteredIncome.reduce((s, t) => s + t.amount, 0)
+  const net = totalIncome - totalExpenses
+
+  const monthSet = new Set(filtered.map(t => t.month))
+  const months = [...monthSet].sort()
+
+  return {
+    ...data,
+    transactions: filtered,
+    expenses: filteredExpenses,
+    income: filteredIncome,
+    totalExpenses,
+    totalIncome,
+    net,
+    dateMin: minISO,
+    dateMax: maxISO,
+    months,
+    nMonths: months.length,
+  }
 }

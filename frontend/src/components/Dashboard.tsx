@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-import { formatEuro, formatDateFR } from '../utils/dataProcessing'
+import { type ReactNode, useState, useMemo } from 'react'
+import { formatEuro, formatDateFR, cropToDateRange } from '../utils/dataProcessing'
 import type { ProcessedData } from '../types'
 import CategoryOverview from './charts/CategoryOverview'
 import MonthlyTrend from './charts/MonthlyTrend'
@@ -11,6 +11,7 @@ import SpendingHeatmap from './charts/SpendingHeatmap'
 import CategoryBoxPlot from './charts/CategoryBoxPlot'
 import CumulativeSpending from './charts/CumulativeSpending'
 import SummaryTable from './SummaryTable'
+import DetectedSubscriptions from './DetectedSubscriptions'
 import './Dashboard.css'
 
 interface Props { data: ProcessedData }
@@ -37,14 +38,60 @@ function ChartCard({ title, children }: { title: string; children: ReactNode }) 
 }
 
 export default function Dashboard({ data }: Props) {
+  const [rangeMin, setRangeMin] = useState(data.dateMin)
+  const [rangeMax, setRangeMax] = useState(data.dateMax)
+
+  // Apply time filter
+  const filtered = useMemo(
+    () => cropToDateRange(data, rangeMin, rangeMax),
+    [data, rangeMin, rangeMax],
+  )
+
   const {
     expenses, income, months, stats,
     totalExpenses, totalIncome, net, dateMin, dateMax, nMonths,
-  } = data
+  } = filtered
 
   return (
     <div className="dashboard">
-      {/* Summary stats bar */}
+
+      {/* ── Time period filter ── */}
+      <div className="period-filter chart-card">
+        <span className="period-filter-label">📅 Filter period</span>
+        <div className="period-filter-inputs">
+          <div className="period-input-group">
+            <label>From</label>
+            <input
+              type="date"
+              value={rangeMin}
+              min={data.dateMin}
+              max={rangeMax}
+              onChange={e => setRangeMin(e.target.value)}
+            />
+          </div>
+          <span className="period-arrow">→</span>
+          <div className="period-input-group">
+            <label>To</label>
+            <input
+              type="date"
+              value={rangeMax}
+              min={rangeMin}
+              max={data.dateMax}
+              onChange={e => setRangeMax(e.target.value)}
+            />
+          </div>
+          {(rangeMin !== data.dateMin || rangeMax !== data.dateMax) && (
+            <button
+              className="period-reset"
+              onClick={() => { setRangeMin(data.dateMin); setRangeMax(data.dateMax) }}
+            >
+              Reset
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* ── Summary stats bar ── */}
       <div className="stats-bar">
         <StatCard
           label="Total expenses"
@@ -81,7 +128,13 @@ export default function Dashboard({ data }: Props) {
         )}
       </div>
 
-      {/* Charts grid */}
+      {/* ── Detected subscriptions ── */}
+      <div className="chart-card">
+        <h3 className="chart-title">🔁 Detected subscriptions</h3>
+        <DetectedSubscriptions expenses={expenses} months={months} />
+      </div>
+
+      {/* ── Charts grid ── */}
       <div className="charts-grid">
         <ChartCard title="Spending by category">
           <CategoryOverview expenses={expenses} />
@@ -120,7 +173,7 @@ export default function Dashboard({ data }: Props) {
         </ChartCard>
       </div>
 
-      {/* Summary table */}
+      {/* ── Summary table ── */}
       <div className="chart-card mt">
         <h3 className="chart-title">Category breakdown</h3>
         <SummaryTable
