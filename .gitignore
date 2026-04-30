@@ -13,3 +13,8 @@ data/*.csv
 !data/.keep
 data/api_cache.json
 data/llm_cache.json
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+

@@ -1,0 +1,95 @@
+/* ── Global reset & base ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #f0f2f5;
+  color: #1f2937;
+  min-height: 100vh;
+}
+
+/* ── Top nav bar ────────────────────────────────────────────────────────── */
+.app-nav {
+  background: #1e1b4b;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+
+.app-nav h1 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.app-nav button {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
+  color: #fff;
+  padding: .4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: .875rem;
+  transition: background .15s;
+}
+.app-nav button:hover { background: rgba(255,255,255,.22); }
+
+/* ── Page wrapper ───────────────────────────────────────────────────────── */
+.app-body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ── Loading overlay ────────────────────────────────────────────────────── */
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 1.5rem;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 48px; height: 48px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-wrapper p { font-size: 1rem; }
+.loading-wrapper small { font-size: .8rem; color: #9ca3af; }
+
+/* ── Error banner ───────────────────────────────────────────────────────── */
+.error-banner {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+  margin: 2rem auto;
+  max-width: 700px;
+  text-align: center;
+}
+.error-banner strong { display: block; margin-bottom: .4rem; }
+.error-banner button {
+  margin-top: 1rem;
+  padding: .5rem 1.25rem;
+  border-radius: 6px;
+  border: none;
+  background: #b91c1c;
+  color: #fff;
+  cursor: pointer;
+  font-size: .875rem;
+}

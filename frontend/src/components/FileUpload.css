@@ -1,0 +1,168 @@
+/* ── Upload page ────────────────────────────────────────────────────────── */
+.upload-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem;
+}
+
+.upload-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.upload-header { text-align: center; }
+.upload-icon { font-size: 3rem; display: block; margin-bottom: .75rem; }
+.upload-header h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: .5rem; }
+.upload-header p { color: #6b7280; font-size: .95rem; line-height: 1.5; }
+
+/* ── Drop zone ──────────────────────────────────────────────────────────── */
+.drop-zone {
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 2rem;
+  transition: border-color .2s, background .2s;
+  cursor: pointer;
+  background: #f9fafb;
+}
+.drop-zone.dragging,
+.drop-zone:focus-within {
+  border-color: #6366f1;
+  background: #eef2ff;
+}
+.drop-zone.has-files { border-color: #10b981; background: #f0fdf4; }
+
+.file-input-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.drop-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+  cursor: pointer;
+  text-align: center;
+  color: #374151;
+  font-size: .95rem;
+}
+.drop-icon { font-size: 2.5rem; }
+.drop-label strong { color: #6366f1; }
+.drop-label small { color: #9ca3af; font-size: .8rem; }
+
+/* ── File list ──────────────────────────────────────────────────────────── */
+.file-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.file-list li {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: .6rem 1rem;
+}
+.file-icon { font-size: 1.1rem; }
+.file-name { flex: 1; font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-size { font-size: .8rem; color: #9ca3af; white-space: nowrap; }
+.remove-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: background .15s;
+}
+.remove-btn:hover { background: #fee2e2; }
+
+/* ── Options ────────────────────────────────────────────────────────────── */
+.upload-options { }
+
+.toggle-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  cursor: pointer;
+  user-select: none;
+}
+.toggle-label input[type="checkbox"] { display: none; }
+
+.toggle-track {
+  flex-shrink: 0;
+  width: 40px; height: 22px;
+  background: #d1d5db;
+  border-radius: 999px;
+  position: relative;
+  margin-top: 2px;
+  transition: background .2s;
+}
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 16px; height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform .2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.toggle-label input:checked ~ .toggle-track { background: #6366f1; }
+.toggle-label input:checked ~ .toggle-track::after { transform: translateX(18px); }
+
+.toggle-label > span {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  font-size: .95rem;
+  font-weight: 500;
+}
+.toggle-label small {
+  font-size: .8rem;
+  font-weight: 400;
+  color: #6b7280;
+}
+.toggle-label code {
+  background: #f3f4f6;
+  padding: 1px 4px;
+  border-radius: 4px;
+  font-size: .75rem;
+}
+
+/* ── Submit button ──────────────────────────────────────────────────────── */
+.analyze-btn {
+  width: 100%;
+  padding: .9rem;
+  border: none;
+  border-radius: 10px;
+  background: #6366f1;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+}
+.analyze-btn:hover:not(:disabled) { background: #4f46e5; }
+.analyze-btn:active:not(:disabled) { transform: scale(.98); }
+.analyze-btn:disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}

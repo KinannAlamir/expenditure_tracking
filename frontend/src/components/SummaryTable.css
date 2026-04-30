@@ -1,0 +1,57 @@
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .875rem;
+}
+
+.summary-table thead tr {
+  background: #f3f4f6;
+}
+
+.summary-table th {
+  padding: .75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.summary-table th.num,
+.summary-table td.num {
+  text-align: right;
+}
+
+.summary-table td {
+  padding: .65rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+
+.summary-table tbody tr:hover { background: #f9fafb; }
+
+.cat-name { font-weight: 500; }
+.bold { font-weight: 600; }
+
+/* Percentage bar */
+.pct-bar {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  justify-content: flex-end;
+}
+.pct-fill {
+  display: inline-block;
+  height: 8px;
+  background: #6366f1;
+  border-radius: 4px;
+  min-width: 2px;
+  max-width: 80px;
+  opacity: .7;
+}
+.pct-label { white-space: nowrap; min-width: 3.5rem; text-align: right; }

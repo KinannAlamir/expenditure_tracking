@@ -73,9 +73,61 @@ The script will generate a new file `path/to/your/expenditure_with_category.csv`
 - Finance & Transfers
 - Other
 
+## Web App
+
+The project includes a full web interface — upload your CSV(s), get interactive charts.
+
+### First-time setup
+
+```bash
+# 1. Install Python dependencies
+uv sync
+
+# 2. Install frontend dependencies
+cd frontend && npm install && cd ..
+```
+
+### Running the app
+
+Open **two terminals** from the project root:
+
+```bash
+# Terminal 1 — Python backend (API on http://localhost:8000)
+uv run uvicorn backend.main:app --reload
+
+# Terminal 2 — React frontend (UI on http://localhost:5173)
+cd frontend && npm run dev
+```
+
+Then open **http://localhost:5173** in your browser.
+
+Drop in your bank CSV export(s), toggle LLM classification on or off, and click **Analyse**. The dashboard shows:
+- Spending by category (pie + bar)
+- Monthly income vs expenses
+- Monthly breakdown by category (stacked bar)
+- Top 20 individual expenses
+- Top 15 merchants
+- Daily spending with 7-day rolling average
+- Category × month heatmap
+- Box plot distribution per category
+- Cumulative spending by category
+- Full category breakdown table
+
+### Building for production
+
+```bash
+cd frontend && npm run build
+```
+
+The compiled frontend is output to `frontend/dist/`. The FastAPI backend will automatically serve it — you only need to run the backend:
+
+```bash
+uv run uvicorn backend.main:app --host 0.0.0.0 --port 8000
+```
+
 ## Development
 
-Format and lint code:
+Format and lint Python code:
 
 ```bash
 uv run ruff format .
