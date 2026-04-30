@@ -1,17 +1,10 @@
 import { type ReactNode, useState, useMemo } from 'react'
 import { formatEuro, formatDateFR, cropToDateRange } from '../utils/dataProcessing'
 import type { ProcessedData } from '../types'
-import CategoryOverview from './charts/CategoryOverview'
 import MonthlyTrend from './charts/MonthlyTrend'
-import MonthlyByCategory from './charts/MonthlyByCategory'
-import TopExpenses from './charts/TopExpenses'
-import TopMerchants from './charts/TopMerchants'
-import DailyTimeline from './charts/DailyTimeline'
-import SpendingHeatmap from './charts/SpendingHeatmap'
-import CategoryBoxPlot from './charts/CategoryBoxPlot'
-import CumulativeSpending from './charts/CumulativeSpending'
 import SummaryTable from './SummaryTable'
 import DetectedSubscriptions from './DetectedSubscriptions'
+import TransactionList from './TransactionList'
 import './Dashboard.css'
 
 interface Props { data: ProcessedData }
@@ -134,44 +127,16 @@ export default function Dashboard({ data }: Props) {
         <DetectedSubscriptions expenses={expenses} months={months} />
       </div>
 
-      {/* ── Charts grid ── */}
-      <div className="charts-grid">
-        <ChartCard title="Spending by category">
-          <CategoryOverview expenses={expenses} />
-        </ChartCard>
-
-        <ChartCard title="Monthly income vs expenses">
-          <MonthlyTrend expenses={expenses} income={income} months={months} />
-        </ChartCard>
-
-        <ChartCard title="Monthly breakdown by category">
-          <MonthlyByCategory expenses={expenses} months={months} />
-        </ChartCard>
-
-        <ChartCard title="Top 20 individual expenses">
-          <TopExpenses expenses={expenses} />
-        </ChartCard>
-
-        <ChartCard title="Top 15 merchants">
-          <TopMerchants expenses={expenses} />
-        </ChartCard>
-
-        <ChartCard title="Daily spending & 7-day rolling average">
-          <DailyTimeline expenses={expenses} />
-        </ChartCard>
-
-        <ChartCard title="Spending heatmap (category × month)">
-          <SpendingHeatmap expenses={expenses} months={months} />
-        </ChartCard>
-
-        <ChartCard title="Transaction distribution per category">
-          <CategoryBoxPlot expenses={expenses} />
-        </ChartCard>
-
-        <ChartCard title="Cumulative spending by category">
-          <CumulativeSpending expenses={expenses} />
-        </ChartCard>
+      {/* ── Transaction explorer ── */}
+      <div className="chart-card">
+        <h3 className="chart-title">💳 Transactions</h3>
+        <TransactionList transactions={filtered.transactions} />
       </div>
+
+      {/* ── Monthly trend ── */}
+      <ChartCard title="Monthly income vs expenses">
+        <MonthlyTrend expenses={expenses} income={income} months={months} />
+      </ChartCard>
 
       {/* ── Summary table ── */}
       <div className="chart-card mt">
